@@ -1,3 +1,5 @@
+const Graph = require('./graph')
+
 let children = {}
 let parents = {}
 let nodes = {}
@@ -27,6 +29,22 @@ const findMostConnected = data => {
   return mostConnected
 }
 
+const findShortestPath = ({data,sender,recipient}) => {
+  const relations = data.map(str=>({nodes:str.replace(/,.*/g,'').split('->'),weight:Number(str.match(/,\d*/)[0].match(/\d/)[0])}))
+  const map = {}
+  relations.forEach(relation=>{
+    const {nodes:[p,c],weight} = relation
+    if(! (p in map)){
+      map[p] = {}
+    }
+    map[p][c] = weight
+  })
+  const graph = new Graph(map)
+  const path = graph.findShortestPath([sender,recipient])
+  console.log(path)
+  return path
+}
+
 const registerNode = node => {
   if(!(node in nodes)){
     children[node] = []
@@ -41,7 +59,7 @@ const initNodes = data => {
   parents = {}
   nodes = {}
   ancesters = {}
-  const relations = data.map(str=>str.split('->'))
+  const relations = data.map(str=>str.replace(/,.*/g,'').split('->'))
   relations.forEach(([p,c])=>{
     registerNode(p)
     registerNode(c)
@@ -138,6 +156,11 @@ let testCases = [
   },
   {
     "data" : [ "A->B" , "B->C" , "B->D" , "E->F" ]
+  },
+  {
+    "data" : [ "A->B,1000" , "A->C,4500" , "B->D,2000" , "B->C,1000", "E->F,4000" ],
+    "sender" : "A",
+    "recipient" : "C"
   }
 ]
 
@@ -145,3 +168,5 @@ console.log('task 1')
 testCases.forEach(test=>minBroadcast(test.data))
 console.log('task 2')
 testCases.forEach(test=>findMostConnected(test.data))
+console.log('task 3')
+findShortestPath(testCases[5])
