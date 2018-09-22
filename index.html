@@ -1,11 +1,16 @@
 <body>
-  <textarea id="str" onchange="onchange()"></textarea>
-  <textarea id="output"></textarea>
+  <textarea id="str" onchange="onChange()"rows="20" cols="100"></textarea>
+  <textarea id="output" rows="20" cols="100"></textarea>
   <button>copy</button>
   <script>
     ta = document.getElementById('str')
+    out = document.getElementById('output')
     onChange = () => {
-
+      console.log(ta.value)
+      str = ta.value.replace(/(\d|[-T: +.])+app\[web\.1\]:\s+/g,'').replace(/(\w+):/g,'"$1":')
+      out.value = str
+      out.select()
+      document.execCommand('copy')
     }
   </script>
 </body>
