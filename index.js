@@ -15,6 +15,18 @@ const minBroadcast = data => {
   return sendList
 }
 
+const findMostConnected = data => {
+  initNodes(data)
+  // console.log({children,parents,nodes})
+  generateAncesterList()
+  // console.log(ancesters)
+  reduceAncesterList()
+  // console.log(ancesters)
+  let mostConnected = mostConnectedOut()
+  console.log(mostConnected)
+  return mostConnected
+}
+
 const registerNode = node => {
   if(!(node in nodes)){
     children[node] = []
@@ -75,14 +87,9 @@ const reduceAncesterList = () => {
 
 const broadcastOut = () => {
   //mark the frequency of nodes
-  const marks = {}
+  const marks = gradeNodes()
   const sendList = []
-  Object.keys(nodes).forEach(node=>{
-    ancesters[node].forEach(ancester=>{
-      marks[ancester] = marks[ancester] || 0
-      marks[ancester]++
-    })
-  })
+  
   while(notSentNodes = Object.keys(nodes).filter(node=>(nodes[node])).sort((a,b)=>marks[a]<marks[b])){
     if(notSentNodes.length === 0)break
     // console.log('push',notSentNodes[0])
@@ -92,12 +99,28 @@ const broadcastOut = () => {
   return sendList
 }
 
+const gradeNodes = () => {
+  const marks = {}
+  Object.keys(nodes).forEach(node=>{
+    ancesters[node].forEach(ancester=>{
+      marks[ancester] = marks[ancester] || 0
+      marks[ancester]++
+    })
+  })
+  return marks
+}
+
 const sendNode = (node)=> {
   // console.log('sendnode',node)
   nodes[node] = false
   // console.log('chilren',children[node],nodes[children[node][0]])
   children[node].forEach(c=>(nodes[c]&&sendNode(c)))
   return true
+}
+
+const mostConnectedOut = () => {
+  const marks = gradeNodes()
+  return Object.keys(nodes).filter(node=>(nodes[node])).sort().sort((a,b)=>marks[a]<marks[b])[0]
 }
 
 let testCases = [
@@ -112,7 +135,13 @@ let testCases = [
   },
   {
     "data" : [ "A->B", "B->C", "C->A"]
+  },
+  {
+    "data" : [ "A->B" , "B->C" , "B->D" , "E->F" ]
   }
 ]
 
+console.log('task 1')
 testCases.forEach(test=>minBroadcast(test.data))
+console.log('task 2')
+testCases.forEach(test=>findMostConnected(test.data))
