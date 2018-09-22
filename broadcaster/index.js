@@ -1,6 +1,44 @@
 const {minBroadcast, findMostConnected, findShortestPath} = require('./functions')
 
 let testCases = [
+  { data: 
+    [ 'F->E',
+    'M->P',
+    'M->S',
+    'P->W',
+    'Q->X',
+    'L->T',
+    'Q->Z',
+    'C->M',
+    'F->R',
+    'A->N',
+    'H->U',
+    'G->U',
+    'K->Y',
+    'S->D',
+    'E->X',
+    'V->J',
+    'H->B',
+    'O->I' ] },
+  { data: 
+    [ 'P->Q',
+    'D->F',
+    'V->Y',
+    'L->O',
+    'P->T',
+    'N->R',
+    'H->N',
+    'K->R',
+    'Y->E',
+    'G->U',
+    'I->Z',
+    'X->J',
+    'S->E',
+    'B->W',
+    'K->C',
+    'Z->R',
+    'G->A',
+    'M->I' ] },
   {"data" : [ "A->B" , "A->C" , "B->D" , "E->F" ]},
   {"data" : [ "A->B" , "C->B" , "B->D" , "D->F", "E->B",  "F->G","F->H"]},
   {"data" : [ "A->B" , "C->B" , "B->D" , "D->F", "E->B",  "F->G","F->H","F->E"]},
@@ -23,4 +61,5 @@ const all = ()=>{
 }
 
 //all()
-minBroadcast(testCases[6])
+// minBroadcast(testCases[0])
+findMostConnected(testCases[0])
