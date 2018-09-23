@@ -7,6 +7,7 @@
     "broadcaster": "nodemon broadcaster/index.js",
     "puzzle": "nodemon puzzle/index.js",
     "skills": "nodemon skills/index.js",
+    "tetris": "nodemon tetris/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
