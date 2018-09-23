@@ -31,18 +31,20 @@ AI.prototype._best = function(grid, workingPieces, workingPieceIndex){
             }else{
                 score = this._best(_grid, workingPieces, workingPieceIndex + 1).score;
             }
+            // console.log(score)
 
             if (score > bestScore || bestScore == null){
                 bestScore = score;
                 best = _piece.clone();
                 bestRotation = rotation
             }
-
+            
             _piece.column++;
         }
     }
-
-    return {piece:best, score:bestScore,rotation:bestRotation};
+    // console.log('best column',best.column)
+    if(best===null)return{piece:workingPiece,score:0,rotation:0,column:0}
+    return {piece:best, score:bestScore,rotation:bestRotation,column:best.column};
 };
 
 AI.prototype.best = function(grid, workingPieces){
